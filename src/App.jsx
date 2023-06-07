@@ -3,38 +3,43 @@ import React from "react";
 class App extends React.Component {
  constructor(){
   super();
-  this.state = {
-    card: '',
-    email: ''
-  }
+ 
   this.cardRef = React.createRef();
   this.emailRef = React.createRef();
+  
  }
 
-  handleChange = (event) => {
-    this.setState (()=>({ [event.target.name]: event.target.value }), ()=>{
-      if(this.state.card.length === 16){ 
-        this.emailRef.current.focus();
-      }
-    });
-  };
-  componentDidMount(){
-    console.log(this.cardRef);
-    this.cardRef.current.focus();
+  //   handleChange = (event) => {
+  //     const {card } = this.state;
+  //     this.setState (()=>({ [event.target.name]: event.target.value }), ()=>{
+  //       if(card.length === 16){ 
+  //         this.emailRef.current.focus();
+  //       }
+  //     });
+  //   };
+  // componentDidMount(){
+  //   console.log(this.cardRef);
+  //   this.cardRef.current.focus();
+  // };
+  handleSubmit = (event) =>{
+    event.preventDefault();
+    if(this.cardRef.current.value.length < 16){
+      alert('invalid card number')
+    }
+   //send
+
+   this.cardRef.current.value = '';
+   this.emailRef.current.value = '';
   }
 
- 
-
   render() {
-    const {card, email} = this.state
+  
     return (
-      <div>
+      <form onSubmit={this.handleSubmit}>
         <input
           type="text"
           name="card"
-          placeholder="First Name"
-          value={card}
-          onChange={this.handleChange}
+          placeholder="card"
           ref={this.cardRef}
           
         />
@@ -42,14 +47,10 @@ class App extends React.Component {
           type="email"
           name="email"
           placeholder="Email"
-          value={email}
-          onChange={this.handleChange}
-          onBlur={this.validateEmail}
           ref={this.emailRef}
         />
-        <br />
-      
-      </div>
+      <button>Send</button>
+      </form>
     );
   }
 }
